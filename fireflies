@@ -1,0 +1,63 @@
+var stars = [];
+
+function setup() {
+  frameRate(12);
+createCanvas(400, 400);
+  for (var i = 0; i < 50; i++) {
+    stars.push(new Star());
+}
+}
+
+function draw() {
+  //gradient colors
+  var color1 = color(0, 0, 102);
+  var color2 = color(0, 153, 255);
+setGradient(0, 0, windowWidth, windowHeight, color1, color2, "Y");
+  //stars
+  for (var i = 0; i < 50; i++) {
+    stars[i].draw();
+}
+}
+
+//Gradient Function from P5js.org
+function setGradient(x, y, w, h, c1, c2, axis) {
+  noFill();
+  if (axis == "Y") {  // Top to bottom gradient
+    for (var i = y; i <= y+h; i++) {
+      var inter = map(i, y, y+h, 0, 1);
+      var c = lerpColor(c1, c2, inter);
+      stroke(c);
+      line(x, i, x+w, i);
+    }
+  }  
+  else if (axis == "X") {  // Left to right gradient
+    for (var j = x; j <= x+w; j++) {
+      var inter2 = map(j, x, x+w, 0, 1);
+      var d = lerpColor(c1, c2, inter2);
+      stroke(d);
+      line(j, y, j, y+h);
+    }
+  }
+}
+
+//Turning Snow Into Fireflies
+function Star() {
+   this.x = random(windowWidth);
+   this.y = random(windowHeight);
+  this.w = 4;
+	this.h = 4;
+}
+Star.prototype.draw = function() {
+   noStroke();
+fill(204, 255, 102);
+ellipse(this.x, this.y, this.w, this.h);
+this.x += (random(10) - 5);
+this.y += (random(10) - 5);
+  if (this.w == 2) {
+    this.w = 4;
+    this.h = 4;
+} else {
+    this.w = 6;
+    this.h = 6;
+}
+}
